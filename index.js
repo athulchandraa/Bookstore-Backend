@@ -18,6 +18,9 @@ server.use(express.json())
 //Use Routes
 server.use(routes)
 
+//Handling Static Foler
+server.use('/Uploadss',express.static('./Uploadss'))
+
 //PORT
 const PORT=process.env.PORT
 
@@ -26,11 +29,13 @@ server.listen(PORT,()=>{
     console.log("Server Started...")
 })
 
+//Handling global error in server using application specific middleware
+server.use((err,req,resp,next)=>{
+    resp.status(500).json(err.message)
+})
+
 //Resolve API in browser useing get method
 server.get('/',(req,resp)=>{
     resp.status(200).send("<h1>Server Started waiting for Request</h1>")
 })
 
-server.post('/',(req,resp)=>{
-    resp.status(200).send("Post Response")
-})
